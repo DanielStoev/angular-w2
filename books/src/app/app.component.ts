@@ -12,21 +12,32 @@ export class AppComponent {
   title = 'books';
 
   private bookIndex = 0;
-  public book = {
-    bookId: Number,
-    bookTitle: String,
-    bookDescription: String,
-    bookAuthor: String,
-    bookReview: Number,
-  };
 
-  private bookTitles = ['imalo edno vreme'];
+  private bookTitles = [
+    'Калейдоскоп',
+    'Някъде там',
+    'В сянката на ядрото',
+    'Тела и светове',
+    'Вдън нещата',
+  ];
 
-  private bookAuthors = ['Ivan Vasov', 'Hristo Botev', 'Petq Dubarova', 'Ivan'];
+  private bookAuthors = [
+    'Албена Кузманова',
+    'Красимир Бачков',
+    'Николай Ников',
+    'Сергей Герджиков',
+    'Христо Кърджилов',
+  ];
 
-  private bookDescriptions = ['mnogo gotina kniga'];
+  private bookDescriptions = [
+    'Стихосбирка съдържаща четиридесет и шест стихотворения, условно разделени в шест цикъла: „Стихии“, „Из живота на морето“, „Огледала“ „Майчинство“, „В себе си…“, „… и Отвъд“',
+    'Книгата съдържа разкази и новели от Красимир Бачков.',
+    '„В сянката на ядрото“ е роман, който разкрива  същността  на случайно попаднали хора в една от най-мащабните трансформации на общественото устройство на света.',
+    'Тази книга е художествен експеримент и има тема: живите тела и световете. Каквото е тялото, такъв е светът, който то възприема.',
+    '24 разказа, построени по класическата формула „запетайка плюс но“.',
+  ];
 
-  private bookReviews = [0];
+  private bookReviews = [0, 0, 0, 0, 0];
 
   public activeBook = {
     bookTitle: this.bookTitles[this.bookIndex],
@@ -35,18 +46,34 @@ export class AppComponent {
     bookReview: this.bookReviews[this.bookIndex],
   };
 
+  public saveBookChanges(
+    title: string,
+    author: string,
+    description: string,
+    review: string
+  ): void {
+    this.bookTitles[this.bookIndex] = title;
+    this.bookAuthors[this.bookIndex] = author;
+    this.bookDescriptions[this.bookIndex] = description;
+    this.bookReviews[this.bookIndex] = parseInt(review);
+
+    this.nextBook();
+  }
+
   private nextBook(): void {
     this.bookIndex++;
-    if (this.bookIndex < this.bookTitles.length) this.loadBookInfo();
-    else {
+    if (this.bookIndex < this.bookTitles.length) {
+      this.loadBookInfo();
+    } else {
+      this.bookIndex = 0;
       this.loadBookInfo();
     }
   }
 
   private loadBookInfo(): void {
-    this.bookTitles[this.bookIndex];
-    this.bookAuthors[this.bookIndex];
-    this.bookDescriptions[this.bookIndex];
-    this.bookReviews[this.bookIndex];
+    this.activeBook.bookTitle = this.bookTitles[this.bookIndex];
+    this.activeBook.bookAuthor = this.bookAuthors[this.bookIndex];
+    this.activeBook.bookDescription = this.bookDescriptions[this.bookIndex];
+    this.activeBook.bookReview = this.bookReviews[this.bookIndex];
   }
 }

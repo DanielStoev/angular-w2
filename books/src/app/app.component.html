@@ -1,12 +1,35 @@
-<div>
-  {{activeBook.bookTitle}}
-</div>
-<div>
-  {{activeBook.bookAuthor}}
-</div>
-<div>
-  {{activeBook.bookDescription}}
-</div>
-<div>
-  {{activeBook.bookReview}}
-</div>
+<table>
+  <tr>
+    <td>
+      Заглавие на книгата:
+    </td>
+    <td>
+      <textarea value="{{ activeBook.bookTitle }}" #bookTitle></textarea>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Автор на книгата:
+    </td>
+    <td>
+      <textarea value="{{ activeBook.bookAuthor }}" #bookAuthor></textarea>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Описание на книгата:
+    </td>
+    <td>
+      <textarea value="{{ [activeBook.bookDescription] }}" #bookDescription rows="5" cols="50"></textarea>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Ретинг на книгата:
+    </td>
+    <td>
+      <textarea value="{{ activeBook.bookReview }}" #bookReview></textarea>
+    </td>
+  </tr>
+</table>
+<button (click)="saveBookChanges(bookTitle.value, bookAuthor.value, bookDescription.value, bookReview.value)">Следваща книга</button>
