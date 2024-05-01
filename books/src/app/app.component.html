@@ -1,35 +1,67 @@
-<table>
-  <tr>
-    <td>
-      Заглавие на книгата:
-    </td>
-    <td>
-      <textarea value="{{ activeBook.bookTitle }}" #bookTitle></textarea>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      Автор на книгата:
-    </td>
-    <td>
-      <textarea value="{{ activeBook.bookAuthor }}" #bookAuthor></textarea>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      Описание на книгата:
-    </td>
-    <td>
-      <textarea value="{{ [activeBook.bookDescription] }}" #bookDescription rows="5" cols="50"></textarea>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      Ретинг на книгата:
-    </td>
-    <td>
-      <textarea value="{{ activeBook.bookReview }}" #bookReview></textarea>
-    </td>
-  </tr>
-</table>
-<button (click)="saveBookChanges(bookTitle.value, bookAuthor.value, bookDescription.value, bookReview.value)">Следваща книга</button>
+<div class="center">
+  <div class="bookRating" *ngIf="ratingBooks">
+    <table>
+      <tr>
+        <td>
+          Заглавие на книгата:
+        </td>
+        <td>
+          <textarea value="{{ activeBook.bookTitle }}" #bookTitle></textarea>
+        </td>
+      </tr>
+      <br>
+      <tr>
+        <td>
+          Автор на книгата:
+        </td>
+        <td>
+          <textarea value="{{ activeBook.bookAuthor }}" #bookAuthor></textarea>
+        </td>
+      </tr>
+      <br>
+      <tr>
+        <td>
+          Описание на книгата:
+        </td>
+        <td>
+          <textarea value="{{ [activeBook.bookDescription] }}" #bookDescription rows="5" cols="50"></textarea>
+        </td>
+      </tr>
+      <br>
+      <tr>
+        <td>
+          Дайте рейтинг на книгата:
+        </td>
+        <td>
+          <button class="ratingButtons"
+            (click)="saveBookChanges(bookTitle.value, bookAuthor.value, bookDescription.value, 1)">1</button>
+          <button class="ratingButtons"
+            (click)="saveBookChanges(bookTitle.value, bookAuthor.value, bookDescription.value, 2)">2</button>
+          <button class="ratingButtons"
+            (click)="saveBookChanges(bookTitle.value, bookAuthor.value, bookDescription.value, 3)">3</button>
+          <button class="ratingButtons"
+            (click)="saveBookChanges(bookTitle.value, bookAuthor.value, bookDescription.value, 4)">4</button>
+          <button class="ratingButtons"
+            (click)="saveBookChanges(bookTitle.value, bookAuthor.value, bookDescription.value, 5)">5</button>
+        </td>
+      </tr>
+    </table>
+    <p *ngIf="totalReviews > 0">Междинен рейтинг на оценените книги: {{calculateRating()}}</p>
+  </div>
+  <div class="endOfBooks" *ngIf="! ratingBooks && !showResults">
+    <p>Книгите свършиха. Искате ли да ги оцените отново?</p>
+    <table>
+      <tr>
+        <td>
+          <button (click)="startRatingAgain()">Да, искам пак да ги оценя</button>
+        </td>
+        <td>
+          <button (click)="stopRating()">Не, благодаря</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div *ngIf="showResults">
+    <p>Крайна оценка на книгите: {{calculateRating()}}</p>
+  </div>
+</div>

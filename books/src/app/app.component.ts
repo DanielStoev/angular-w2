@@ -1,17 +1,23 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, NgIf],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
   title = 'books';
 
+  public ratingBooks = true;
+  public showResults = false;
+
   private bookIndex = 0;
+  public sumRating = 0;
+  public totalReviews = 0;
 
   private bookTitles = [
     'Калейдоскоп',
@@ -37,34 +43,46 @@ export class AppComponent {
     '24 разказа, построени по класическата формула „запетайка плюс но“.',
   ];
 
-  private bookReviews = [0, 0, 0, 0, 0];
-
   public activeBook = {
     bookTitle: this.bookTitles[this.bookIndex],
     bookAuthor: this.bookAuthors[this.bookIndex],
     bookDescription: this.bookDescriptions[this.bookIndex],
-    bookReview: this.bookReviews[this.bookIndex],
   };
 
   public saveBookChanges(
     title: string,
     author: string,
     description: string,
-    review: string
+    rating: number
   ): void {
     this.bookTitles[this.bookIndex] = title;
     this.bookAuthors[this.bookIndex] = author;
     this.bookDescriptions[this.bookIndex] = description;
-    this.bookReviews[this.bookIndex] = parseInt(review);
+    this.sumRating += rating;
 
     this.nextBook();
   }
 
+  public startRatingAgain(): void {
+    this.bookIndex = 0;
+    this.ratingBooks = true;
+  }
+
+  public stopRating(): void {
+    this.showResults = true;
+  }
+
+  public calculateRating(): number {
+    return Math.round((this.sumRating / this.totalReviews + Number.EPSILON) * 100) / 100;
+  }
+
   private nextBook(): void {
     this.bookIndex++;
+    this.totalReviews++;
     if (this.bookIndex < this.bookTitles.length) {
       this.loadBookInfo();
     } else {
+      this.ratingBooks = false;
       this.bookIndex = 0;
       this.loadBookInfo();
     }
@@ -74,6 +92,5 @@ export class AppComponent {
     this.activeBook.bookTitle = this.bookTitles[this.bookIndex];
     this.activeBook.bookAuthor = this.bookAuthors[this.bookIndex];
     this.activeBook.bookDescription = this.bookDescriptions[this.bookIndex];
-    this.activeBook.bookReview = this.bookReviews[this.bookIndex];
   }
 }
